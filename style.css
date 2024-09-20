@@ -1,0 +1,361 @@
+/* Inspired by this pen by Pieter Biesemans https://codepen.io/pieter-biesemans/pen/BQBWXX and My Mother Before Me project http://mymotherbeforeme.com/ */
+
+body {
+  font-family: Hepta Slab, sans-serif;
+  font-weight: 500;
+  background: #efecdb;
+  color: #5D4037;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* hide scrollbar */
+::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+}
+
+::-webkit-scrollbar-button {
+  width: 1px;
+  height: 1px;
+}
+.external {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.horizontal-scroll-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vh;
+  transform: rotate(-90deg) translate3d(0,-100vh,0);
+  transform-origin: right top;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  height: 100vw;
+  perspective: 1px;
+  transform-style: preserve-3d;
+  padding-bottom: 10rem;
+}
+.img-wrapper {
+  transform: rotate(90deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  transform-origin: 50% 50%;
+  transform: rotate(90deg) translateZ(.1px) scale(0.9) translateX(0px) translateY(-3vh);
+  transition: 1s;
+}
+
+.img-wrapper:hover {
+ min-height: 65vh;
+}
+
+.slower {
+  transform: rotate(90deg) translateZ(-.2px) scale(1.1) translateX(0%) translateY(-10vh);
+}
+.slower1 {
+  transform: rotate(90deg) translateZ(-.25px) scale(1.05) translateX(0%) translateY(8vh);
+}
+.slower2 {
+  transform: rotate(90deg) translateZ(-.3px) scale(1.3) translateX(0%) translateY(2vh);
+}
+.slower-down {
+  transform: rotate(90deg) translateZ(-.2px) scale(1.1) translateX(0%) translateY(16vh) ;
+}
+.faster {
+  transform: rotate(90deg) translateZ(.15px) scale(0.8) translateX(0%) translateY(14vh) ;
+}
+.faster1 {
+  transform: rotate(90deg) translateZ(.05px) scale(0.8) translateX(0%) translateY(10vh) ;
+}
+.fastest {
+  transform: rotate(90deg) translateZ(.22px) scale(0.7) translateX(-10vh) translateY(-15vh) ;
+}
+.vertical {
+   transform: rotate(90deg) translateZ(-.15px) scale(1.15) translateX(0%) translateY(0%) ;
+}
+.last {
+  transform: rotate(90deg) translateZ(-.2px) scale(1.1) translateX(25vh) translateY(-8vh) ;
+}
+.scroll-info, header {
+  position: absolute;
+  left: 1rem;
+}
+
+
+header {
+  bottom: 1rem;
+}
+.scroll-info {
+  top: 1rem;
+}
+a {
+  color: inherit;
+  font-weight: 500;
+
+}
+h1 {
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.img-wrapper a {
+  overflow: hidden;
+  display: block;
+  padding: 1vh ;
+  background: #efecdb;
+  box-shadow: 0 10px 50px #5f2f1182;
+}
+img {
+  max-width: 45vh;
+  max-height: 50vh;
+  transition: .5s;
+  vertical-align: top;
+  filter: saturate(40%) sepia(30%) hue-rotate(5deg);
+}
+a:hover img {
+  filter: none;
+}
+p {
+  margin: 0;
+}
+.scroll-info {
+  display: flex;
+  align-items: center;
+}
+.icon svg {
+    width: 50px;
+    fill: currentcolor;
+}
+.audio-control {
+  font-size: 18px;
+  margin-left: 20px;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.audio-control:hover {
+  background-color: #f0f0f0;
+}
+
+.audio-control:focus {
+  outline: none;
+}
+
+.audio-control svg {
+  vertical-align: middle;
+}
+
+.scroll-info {
+  display: flex;
+  align-items: center;
+}
+
+.img-wrapper video {
+  max-width: 50vh;
+  max-height: 55vh;
+  transition: .5s;
+  filter: saturate(40%) sepia(30%) hue-rotate(5deg); /* Sama dengan gambar */
+  vertical-align: top;
+  display: block;
+  object-fit: cover;
+}
+
+.img-wrapper a:hover video {
+  filter: none;
+}
+
+.parallax-text {
+  position: fixed; /* Buat teks tetap di satu posisi meskipun gambar bergulir */
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%); /* Menghindari miring dengan memastikan hanya terpusat secara horizontal */
+  color: white;
+  font-family: 'Hepta Slab', serif;
+  font-size: 4rem;
+  font-weight: 500;
+  z-index: 10;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.parallax-text h1 {
+  /* Jika ingin tetap ada animasi pada teks ketika halaman dimuat */
+  animation: parallaxEffect 3s ease-out forwards;
+}
+
+@keyframes parallaxEffect {
+  from {
+    opacity: 0;
+    transform: translateY(-50px); /* Animasi untuk sedikit bergerak vertikal */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Awal state modal, di luar viewport */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Transparansi hitam */
+  opacity: 0; /* Mulai tidak terlihat */
+  transition: opacity 0.4s ease;
+}
+
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  transform: translateY(-50px); /* Modal naik dari atas */
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  opacity: 0; /* Modal mulai tidak terlihat */
+}
+
+.modal.show {
+  display: block; /* Pastikan modal terlihat */
+  opacity: 1; /* Muncul fade-in */
+}
+
+.modal-content.show {
+  opacity: 1; /* Modal muncul */
+  transform: translateY(0); /* Modal bergerak ke posisi asli */
+}
+
+/* Animation for each modal */
+.slide-up {
+  transform: translateY(100%);
+  transition: transform 0.5s ease;
+}
+
+.slide-up.show {
+  transform: translateY(0);
+}
+
+.zoom-in {
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.zoom-in.show {
+  transform: scale(1);
+}
+
+.fade-right {
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.fade-right.show {
+  transform: translateX(0);
+}
+
+.rotate-in {
+  transform: rotate(-90deg);
+  transition: transform 0.5s ease;
+}
+
+.rotate-in.show {
+  transform: rotate(0);
+}
+
+/* Tombol close */
+.close-btn {
+  color: black;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-btn:hover, .close-btn:focus {
+  color: #aaa;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.open-modal-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding-top: 10px;
+}
+
+.open-modal-btn img {
+  width: 40px;
+  height: 40px;
+}
+
+
+
+/* Dekorasi berupa titik/bintang kecil */
+.star, .dot {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5); /* Warna hitam dengan transparansi */
+  border-radius: 50%;
+  z-index: 0; /* Dekorasi berada di belakang konten scroll */
+  pointer-events: none; /* Agar tidak mengganggu interaksi */
+}
+
+.star {
+  width: 4px;
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.7); /* Warna hitam lebih pekat */
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8); /* Efek cahaya bintang */
+  animation: moveStars 10s linear infinite;
+}
+
+.dot {
+  width: 2px;
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.5); /* Titik dengan sedikit transparansi */
+  animation: moveDots 8s linear infinite;
+}
+
+/* Gerakan horizontal bintang */
+@keyframes moveStars {
+  0% {
+    transform: translateX(0);
+    opacity: 1; /* Mulai dengan opacity penuh */
+  }
+  90% {
+    opacity: 1; /* Tetap penuh sebagian besar waktu */
+  }
+  100% {
+    transform: translateX(120px); /* Gerak ke kanan lebih jauh */
+    opacity: 0; /* Menghilang sebelum mengulang */
+  }
+}
+
+/* Gerakan horizontal titik */
+@keyframes moveDots {
+  0% {
+    transform: translateX(0);
+    opacity: 1; /* Mulai dengan opacity penuh */
+  }
+  90% {
+    opacity: 1; /* Tetap penuh sebagian besar waktu */
+  }
+  100% {
+    transform: translateX(100px); /* Gerak ke kanan lebih dekat */
+    opacity: 0; /* Menghilang sebelum mengulang */
+  }
+}
